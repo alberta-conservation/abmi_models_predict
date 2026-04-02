@@ -1,0 +1,43 @@
+---
+date: '`r format(Sys.time(), "%d %B, %Y")`' 
+
+bibliography: C:/Users/crosby/Documents/zotero-library-json.json 
+csl: common/ecology.csl 
+
+output: 
+  word_document:
+    reference_docx: common/word-styles-reference.docx 
+
+fontsize: 12pt
+mainfont: Times New Roman
+
+fig_caption: yes
+---
+
+# Working Title: 
+
+## **Author(s):** 'Author Name'^1^  
+
+^1^'Author affiliation'
+
+# INTRODUCTION  
+Example citation key: [@Aarts2012] and 
+
+# METHODS  
+
+## **First subheading (e.g., Study Area)** 
+
+### Second subheading (e.g., Avian data processing)
+
+# RESULTS 
+
+
+# DISCUSSION  
+
+
+# LITERATURE CITED 
+
+
+
+
+
