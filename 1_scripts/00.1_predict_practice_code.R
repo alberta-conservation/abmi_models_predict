@@ -75,16 +75,26 @@ lc.coef.update$Vegetation$COEF <- replace_values(lc.coef.update$Vegetation$COEF,
                                                  "Rural" ~ "RuralResidential")
 
 
-landcover.out <- clean_landcover(
+landcover.out.current <- clean_landcover(
   data.in = as.matrix(d.wide$veg.current),
   landscape.lookup = lc.coef.update,
   type = "Vegetation",
   class.in = "ID",
   class.out = "COEF")
 
+landcover.out.reference <- clean_landcover(
+  data.in = as.matrix(d.wide$veg.reference),
+  landscape.lookup = lc.coef.update,
+  type = "Vegetation",
+  class.in = "ID",
+  class.out = "COEF")
+
 # Convert the areas to proportions
-lc.out <- landcover.out/rowSums(landcover.out)
-summary(rowSums(lc.out))
+lc.out.current <- landcover.out.current/rowSums(landcover.out.current)
+summary(rowSums(lc.out.current))
+
+lc.out.reference <- landcover.out.reference/rowSums(landcover.out.reference)
+summary(rowSums(lc.out.reference))
 
 
 library(ABMIexploreR)
@@ -101,12 +111,13 @@ str(single.species)
 # plot_coef(species = "BlackthroatedGreenWarbler", model = "Vegetation")
 
 spatial.locations <- vect(cent)
-crs(spatial.locations) <- "EPSG:3400"
+# crs(spatial.locations) <- "EPSG:3400"
 
 climate.input <- extract_climate(spatial.grid = spatial.locations, 
                                  cell.id = cent$fid,
                                  reproject = FALSE); gc()
 
+save(climate.input, lc.out.current, lc.out.reference, cent, file = "2_pipeline/store/abmi_prediction_data.Rdata")
 
 ## define species and bootstrap id
 spp <- "BlackthroatedGreenWarbler"
@@ -120,7 +131,6 @@ rm <- which(is.na(climate.input$wN))
 climate.input.rm <- climate.input[-rm, ]
 veg.data.rm <- veg.data[-which(rownames(veg.data) %in% rownames(climate.input)[rm]), ]
 
-save(climate.input.rm, veg.data.rm, spatial.locations, file = "2_pipeline/store/abmi_prediction_data.Rdata")
 
 ## Make single species prediction
 model.output <- species_predict(species = spp, 
