@@ -2,3 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
+.positai
+
+
+0_data/
+2_pipeline/
+3_outputs/
